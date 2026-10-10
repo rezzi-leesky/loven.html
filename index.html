@@ -254,10 +254,15 @@
 
         // Global Firebase handles
         const appId = typeof __app_id !== 'undefined' ? __app_id !== null && __app_id !== "" ? __app_id : 'default-love-app' : 'default-love-app';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "demo", projectId: "demo" };
-
-        let app, db, auth, userId = null;
-        let selectedBase64Image = null;
+       const firebaseConfig = {
+    apiKey: "AIzaSyAaubFAaCPhFueSMPwYsIk6rrYLLzVaslA",
+    authDomain: "our-love-chat-51ce6.firebaseapp.com",
+    projectId: "our-love-chat-51ce6",
+    storageBucket: "our-love-chat-51ce6.firebasestorage.app",
+    messagingSenderId: "277852024134",
+    appId: "1:277852024134:web:8af4e4398430d748668947",
+    measurementId: "G-LG27SBFJGB"
+  };
 
         async function initFirebase() {
             try {
