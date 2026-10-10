@@ -610,137 +610,23 @@ Every smile of yours melts my heart, and every little laugh is my absolute favor
 
 Thank you for being my peace, my joy, my biggest adventure, and my favorite person to miss. No matter where life takes us, my heart is, and always will be, completely yours. 
 
-I love you more than words, stars, and infinite numbers can ever say. Forever and always yours. ❤️
-u mean a lot to me sometimes u feel like i never loved u but everthing i ever told you about my feelings were never a lie sometimes i gey annoyed because of the manner in which you talk to me making me feel like if we ever get married you will not just direspect me but my family too
-disrespect is something i take too seriouly and still despite how many times  you disrespect me i still dont know how to stop loving you.
-i know someday the disrespect will be unbearable but still i have waited hopping you can change and i still believe you will change so that we can build something beautful together
-I LOVE YOU AND I MISS YOU.
-`};
+I love you more than words, stars, and infinite numbers can ever say. Forever and always yours. ❤️`;
 
-  <!-- Realtime Message & Reply Board -->
-<div class="max-w-md mx-auto bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-lg text-white mt-8 border border-white/20">
-    <h3 class="text-xl font-bold mb-2 text-center">💬 Leave a Sweet Note</h3>
-    <p class="text-xs text-center text-pink-200 mb-4">Post a note or reply directly on the site!</p>
-</div>
-    <!-- Message Feed -->
-    <div id="messages-container" class="h-80 overflow-y-auto space-y-3 p-2 bg-black/20 rounded-xl mb-4 pr-2">
-        <p id="loading-text" class="text-xs text-center text-gray-300">Loading notes...</p>
-    </div>
+            const container = document.getElementById('typewriter-text');
+            container.innerHTML = "";
+            let i = 0;
+            const speed = 25;
 
-    <!-- New Message Form -->
-    <div>
-    <form id="note-form" class="space-y-3">
-        <input type="text" id="note-author" placeholder="Your Name" required 
-            class="w-full p-3 rounded-xl bg-black/30 border border-pink-400/30 text-white placeholder-pink-200/50 focus:outline-none focus:border-pink-400 text-sm"></input>
-        <textarea id="note-text" placeholder="Write something sweet..." required rows="2"
-            class="w-full p-3 rounded-xl bg-black/30 border border-pink-400/30 text-white placeholder-pink-200/50 focus:outline-none focus:border-pink-400 text-sm resize-none"></textarea>
-        <button type="submit" 
-            class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl font-bold text-white hover:opacity-90 transition">
-            🚀 Send Note
-        </button>
-    </form>
-</div>
-
-<!-- Firebase Realtime Board Script -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    const firebaseConfig = {
-  apiKey: "AIzaSyAaubFAaCPhFueSMPwYsIk6rrYLLzVaslA",
-  authDomain: "our-love-chat-51ce6.firebaseapp.com",
-  projectId: "our-love-chat-51ce6",
-  storageBucket: "our-love-chat-51ce6.firebasestorage.app",
-  messagingSenderId: "277852024134",
-  appId: "1:277852024134:web:8af4e4398430d748668947",
-  measurementId: "G-LG27SBFJGB",
-
-   const app = initializeApp(firebaseConfig),
-    const db = getDatabase(app),
-
-    const form = document.getElementById('note'),
-    const container = document.getElementById('messages-container'),
-
-    // Post a new top-level message
-    form.addEventListener('submit', (e) = {
-        e.preventDefault()
-         author = document.getElementById('note-author').value.trim();
-        const text = document.getElementById('note-text').value.trim();
-        
-        if (!author || !text) return;
-
-        const newMsgRef = push(ref(db, 'notes'));
-        set(newMsgRef, {
-            author: author,
-            text: text,
-            timestamp: Date.now(),
-            replies: {}
-        );
-
-        document.getElementById('note-text').value = '';
-    
-    // Listen for live updates and render messages + replies
-    onValue(ref(db, 'notes'), (snapshot) = {
-        container.innerHTML = ''
-         data = snapshot.val();
-
-        if (!data) {
-            container.innerHTML = '<p class="text-xs text-center text-pink-200 opacity-70 mt-4">No notes yet. Be the first to leave one!</p>';
-            return;
+            function typeWriter() {
+                if (i < loveLetterText.length) {
+                    container.innerHTML += loveLetterText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+            typeWriter();
         }
 
-        Object.keys(data).reverse().forEach((noteId) => {
-            const note = data[noteId];
-            const card = document.createElement('div');
-            card.className = "p-3 rounded-xl bg-white/10 border border-white/10 text-xs space-y-2";
-
-            let repliesHTML = '';
-            if (note.replies) {
-                Object.values(note.replies).forEach(reply => {
-                    repliesHTML += `
-                        <div class="ml-3 pl-2 border-l-2 border-pink-400/50 my-1">
-                            <span class="font-bold text-pink-300">${escapeHtml(reply.author)}:</span> 
-                            <span class="text-gray-200">${escapeHtml(reply.text)}</span>
-                        </div>
-                    `;
-                });
-            
-            card.innerHTML = `
-                <div>
-                    <strong class="text-pink-300">${escapeHtml(note.author)}</strong>
-                    <p class="text-white mt-1 text-sm">${escapeHtml(note.text)}</p>
-                </div>
-                <div class="space-y-1">${repliesHTML}</div>
-                <div class="flex gap-1 mt-2 pt-2 border-t border-white-10">
-                    <input type="text" id="reply-author-${noteId}" placeholder="Your name" class="w-1/3 p-1 rounded bg-black/40 text-white placeholder-gray-400 text-[10px]">
-                    <input type="text" id="reply-text-${noteId}" placeholder="Reply..." class="w-1/2 p-1 rounded bg-black/40 text-white placeholder-gray-400 text-[10px]">
-                    <button onclick="window.sendReply('${noteId}')" class="w-1/6 bg-pink-500 text-white rounded font-bold text-[10px]">Reply</button>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-    });
-
-    // Global helper function to post replies
-    window.sendReply = function(noteId) {
-        const author = document.getElementById(`reply-author-${noteId}`).value.trim();
-        const text = document.getElementById(`reply-text-${noteId}`).value.trim();
-
-        if (!author || !text) return;
-
-        const replyRef = push(ref(db, `notes/${noteId}/replies`));
-        set(replyRef, {
-            author: author,
-            text: text,
-            timestamp: Date.now()
-        });
-    };
-
-    function escapeHtml(str) {
-        return str ? str.replace(/[&<>"']/g, '') : '';
-    };
-        </script>  
-<script>
         // Modal Helpers
         
         function showModal(message, title = "Notice", iconClass = "fa-solid fa-heart") {
